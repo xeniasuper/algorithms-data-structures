@@ -42,8 +42,8 @@ function LinkedList() {
     let length = 0;
     let head = null;
 
-    let Node = function(element){
-        this.element = element;
+    let Node = function(item){
+        this.item = item;
         this.next = null;
     };
 
@@ -56,12 +56,12 @@ function LinkedList() {
     };
 
     /**
-     * Adds an element to the end of the linked list
-     * @param element
+     * Adds an item to the end of the linked list
+     * @param item
      */
-    this.add = function(element){
+    this.add = function(item){
         // Only change code below this line
-        let node = new Node(element);
+        let node = new Node(item);
 
         if(head === null){
             head = node;
@@ -80,20 +80,20 @@ function LinkedList() {
     };
 
     /**
-     * Removes an element from the linked list
-     * @param element
+     * Removes an item from the linked list
+     * @param item
      */
-    this.remove = function(element){
+    this.remove = function(item){
         // Only change code below this line
         length--;
 
-        if (element === head) {
+        if (item === head) {
             head = head.next;
         } else {
             let prevElement = head;
             let currentElement = head.next;
 
-            while (element !== currentElement.element) {
+            while (item !== currentElement.item) {
                 prevElement = currentElement;
                 currentElement = currentElement.next;
             }
@@ -103,15 +103,15 @@ function LinkedList() {
     };
 
     /**
-     * Finds an element's index in the linked list. If the element is not found in the linked list, return -1
-     * @param element
+     * Finds an item's index in the linked list. If the item is not found in the linked list, return -1
+     * @param item
      */
-    this.indexOf = function(element) {
+    this.indexOf = function(item) {
         // Only change code below this line
         let index = 0;
         let currentElement = head;
 
-        while (element !== currentElement.element) {
+        while (item !== currentElement.item) {
             index++;
 
             if (currentElement.next !== null) {
@@ -126,12 +126,12 @@ function LinkedList() {
     };
 
     /**
-     * Finds an element with provided index, if the index < 0 or is greater than the list length,
+     * Finds an item with provided index, if the index < 0 or is greater than the list length,
      * return undefined
      * @param index
      * @return {*}
      */
-    this.elementAt = function(index) {
+    this.itemAt = function(index) {
         // Only change code below this line
         if (index < 0 || index >= length) {
             return undefined;
@@ -143,13 +143,13 @@ function LinkedList() {
                 currentElement = currentElement.next;
                 currentIdx++;
             }
-            return currentElement.element;
+            return currentElement.item;
         }
         // Only change code above this line
     };
 
     /**
-     * Removes an element at a given index, if the index < 0 or is greater than the list length,
+     * Removes an item at a given index, if the index < 0 or is greater than the list length,
      * return null
      * @param index
      * @return {*}
@@ -172,17 +172,17 @@ function LinkedList() {
             }
 
             prevElement.next = currentElement.next;
-            return currentElement.element;
+            return currentElement.item;
 
         }
         // Only change code above this line
     };
 
     /**
-     * Adds an element at a given index, if the index < 0 or is greater than the list length,
+     * Adds an item at a given index, if the index < 0 or is greater than the list length,
      * return false
      * @param index
-     * @param element
+     * @param item
      * @return {*}
      */
     this.addAt = function(index, element) {
@@ -190,15 +190,15 @@ function LinkedList() {
         if (index < 0 || index >= length) {
             return false;
         } else {
-            element = new Node(element);
+            let item = new Node(element);
 
             let currentIndex = 0;
             let currentElement = head;
             let prevElement;
 
             if (index === 0) {
-                element.next = head.next;
-                head = element;
+                item.next = head.next;
+                head = item;
             } else {
                 while (currentIndex < index) {
                     currentIndex++;
@@ -206,13 +206,173 @@ function LinkedList() {
                     currentElement = currentElement.next;
                 }
 
-                prevElement.next = element;
-                element.next = currentElement;
+                prevElement.next = item;
+                item.next = currentElement;
             }
 
             length++;
-            return element.element;
+            return item.item;
         }
         // Only change code above this line
     };
-}
+};
+
+// DOUBLY LINKED LIST
+/**
+ * Represents a node of a doubly linked list
+ * @param data
+ * @param prev
+ * @constructor
+ */
+let Node = function (data, prev) {
+    this.data = data;
+    this.prev = prev;
+    this.next = null;
+};
+
+/**
+ * Represents a doubly linked list
+ * @constructor
+ */
+let DoublyLinkedList = function () {
+    this.head = null;
+    this.tail = null;
+
+    /**
+     * Adds an element to the end
+     * @param elem
+     */
+    this.add = function(elem) {
+        if (this.head === null) {
+            let item = new Node(elem, null);
+            this.head = item;
+            item.next = this.tail;
+        } else {
+            let currElem = this.head;
+
+            while(currElem.next !== null) {
+                currElem = currElem.next;
+            }
+
+            let item = new Node(elem, currElem);
+            currElem.next = item;
+            item.next = this.tail;
+        }
+    };
+
+    /**
+     * Removes all occurences of an element, if there are no return null
+     * @param elem
+     * @return {null}
+     */
+    this.remove = function(elem) {
+        if (this.head === null) {
+            return null;
+        } else {
+            let currElem = this.head;
+
+            while (currElem.next !== null) {
+                if (elem === currElem.data) {
+                    if (currElem.prev !== null) {
+                        currElem.prev.next = currElem.next;
+                        currElem.next.prev = currElem.prev;
+                    } else {
+                        this.head = currElem.next;
+                        this.head.prev = null;
+                    }
+                }
+                currElem = currElem.next;
+            }
+
+            if (elem === currElem.data) {
+                currElem.prev.next = null;
+            }
+        }
+    }
+};
+
+// HASH TABLE
+let called = 0;
+/**
+ * A naive hash function
+ * @param string
+ * @return {number}
+ */
+let hash = (string) => {
+    called++;
+    let hash = 0;
+    for (let i = 0; i < string.length; i++) {
+        hash += string.charCodeAt(i);
+    }
+    return hash;
+};
+
+/**
+ * An implementation of Hash Table
+ * @constructor
+ */
+let HashTable = function () {
+    this.collection = {};
+    // change code below this line
+    /**
+     * Adds a key-value pair
+     * @param key
+     * @param value
+     */
+    this.add = function(key, value) {
+        let trueKey = hash(key);
+        if (this.collection.hasOwnProperty(trueKey)) {
+            let values = this.collection[trueKey];
+            for (let i = 0; i < values.length; i++) {
+                if (values[i][0] === key) {
+                    values[i][1] = value;
+                    break;
+                } else {
+                    this.collection[trueKey].push([ key, value ]);
+                }
+            }
+        } else {
+            this.collection[trueKey] = [[ key, value ]];
+        }
+    };
+
+    /**
+     * Removes a key-value pair
+     * @param key
+     */
+    this.remove = function(key) {
+        let trueKey = hash(key);
+        let value = this.collection[trueKey];
+        for (let i = 0; i < value.length; i++) {
+            if (value[i][0] === key) {
+                value.splice(i, 1);
+                break;
+            }
+        }
+        if ((value.length) === 0) {
+            delete this.collection[trueKey];
+        }
+    };
+
+    /**
+     * Gives a value associated with a key
+     * @param key
+     * @return {null|*}
+     */
+    this.lookup = function(key) {
+        let trueKey = hash(key);
+        if (this.collection.hasOwnProperty(trueKey)) {
+            let values = this.collection[trueKey];
+            for (let i = 0; i < values.length; i++) {
+                if (values[i][0] === key) {
+                    return values[i][1];
+                }
+            }
+        } else {
+            return null;
+        }
+    }
+    // change code above this line
+};
+
+
