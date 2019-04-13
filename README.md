@@ -1,2 +1,2 @@
 # basic-data-structures
-My solutions to the problems from freeCodeCamp's data structures certification
+My solutions to the problems on data structures from freeCodeCamp's coding interview prep section
