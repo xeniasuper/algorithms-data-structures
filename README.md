@@ -1,2 +1,2 @@
-# basic-algorithms-data-structures
+# basic-data-structures
 My solutions to the problems from freeCodeCamp's data structures certification
