@@ -42,7 +42,7 @@ function LinkedList() {
     let length = 0;
     let head = null;
 
-    let Node = function(item){
+    function Node(item){
         this.item = item;
         this.next = null;
     };
@@ -224,7 +224,7 @@ function LinkedList() {
  * @param prev
  * @constructor
  */
-let Node = function (data, prev) {
+function Node(data, prev) {
     this.data = data;
     this.prev = prev;
     this.next = null;
@@ -375,4 +375,132 @@ let HashTable = function () {
     // change code above this line
 };
 
+// BINARY SEARCH TREE
+var displayTree = (tree) => console.log(JSON.stringify(tree, null, 2));
+function Node(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+}
+function BinarySearchTree() {
+    this.root = null;
+    // change code below this line
+    this.findMin = function() {
+        return this._findExtremum("left");
+    };
+
+    this.findMax = function () {
+        return this._findExtremum("right");
+    };
+
+    this._findExtremum = function(side){
+        if (this.root === null) return null;
+
+        let current = this.root;
+        while (current[side] !== null) {
+            current = current[side];
+        }
+        return current.value;
+    };
+
+    this.add = function(number) {
+        let node = new Node(number);
+
+        if (this.root === null) {
+            this.root = node;
+        } else {
+            let current = this.root;
+            let flag = true;
+
+            while (flag) {
+                if (number < current.value) {
+                    if (current.left !== null) {
+                        current = current.left;
+                    } else {
+                        flag = false;
+                    }
+                } else if (number > current.value) {
+                    if (current.right !== null) {
+                        current = current.right;
+                    } else {
+                        flag = false;
+                    }
+                } else {
+                    return null;
+                }
+            }
+            if (number < current.value) {
+                current.left = node;
+            } else {
+                current.right = node;
+            }
+        }
+    };
+
+    this.isPresent = function(number) {
+        let node = new Node(number);
+
+        if (this.root === null) {
+            return false;
+        } else {
+            let current = this.root;
+            let flag = true;
+
+            while (flag) {
+                if (number < current.value) {
+                    if (current.left !== null) {
+                        current = current.left;
+                    } else {
+                        flag = false;
+                    }
+                } else if (number > current.value) {
+                    if (current.right !== null) {
+                        current = current.right;
+                    } else {
+                        flag = false;
+                    }
+                } else {
+                    return true;
+                }
+            }
+            return false;
+        }
+    };
+
+
+    this.findMinHeight = function(node = this.root) {
+        if (node === null) {
+            return -1;
+        };
+
+        let left = this.findMinHeight(node.left);
+        let right = this.findMinHeight(node.right);
+        if (left < right) {
+            return left + 1;
+        } else {
+            return right + 1;
+        };
+    };
+    this.findMaxHeight = function(node=this.root) {
+        if (node === null) {
+            return -1;
+        };
+
+        let left = this.findMaxHeight(node.left);
+        let right = this.findMaxHeight(node.right);
+        if (left > right) {
+            return left + 1;
+        } else {
+            return right + 1;
+        };
+    };
+
+    this.isBalanced = function() {
+        return this.findMinHeight() === this.findMaxHeight();
+    }
+    // change code above this line
+}
+
+let t = new BinarySearchTree();
+console.log(t.findMin());
 
