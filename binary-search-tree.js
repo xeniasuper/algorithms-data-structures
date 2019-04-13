@@ -173,9 +173,99 @@ function BinarySearchTree() {
      */
     this.isBalanced = function() {
         return this.findMinHeight() === this.findMaxHeight();
+    };
+
+    // Depth-first search
+    this.preorder = function() {
+        let values = [];
+
+        function traverseNLR(node) {
+            if (node === null) {
+                return null;
+            }
+            values.push(node.value);
+            traverseNLR(node.left);
+            traverseNLR(node.right);
+        }
+        traverseNLR(this.root);
+        if (values.length === 0) return null;
+        return values;
     }
+
+    this.inorder = function() {
+        let values = [];
+
+        function traverseLNR(node) {
+            if (node === null) {
+                return null;
+            }
+            traverseLNR(node.left);
+            values.push(node.value);
+            traverseLNR(node.right);
+        }
+        traverseLNR(this.root);
+        if (values.length === 0) return null;
+        return values;
+    }
+
+    this.postorder = function() {
+        let values = [];
+
+        function traverseLRN(node) {
+            if (node === null) {
+                return null;
+            } else {
+                traverseLRN(node.left);
+                traverseLRN(node.right);
+                values.push(node.value);
+            }
+        }
+
+        traverseLRN(this.root);
+        if (values.length === 0) return null;
+        return values;
+        }
+
+        // Width-first search
+        this.levelOrder = function() {
+            return this.widthFirstSearch("left", "right");
+        };
+
+        this.reverseLevelOrder= function() {
+            return this.widthFirstSearch("right", "left");
+        };
+
+        this.widthFirstSearch = function(fromSide, toSide) {
+            if (this.root === null) return null;
+
+            let queue = [];
+            let values = [];
+
+            queue.unshift(this.root);
+
+            while(queue.length !== 0) {
+                let node = queue.shift();
+                values.push(node.value);
+                if (node[fromSide] !== null) {
+                    queue.push(node[fromSide]);
+                };
+                if (node[toSide] !== null) {
+                    queue.push(node[toSide]);
+                }
+            }
+            return values;
+        }
     // change code above this line
 }
 
 let t = new BinarySearchTree();
-console.log(t.findMin());
+t.add(3);
+t.add(1);
+t.add(2);
+t.add(7);
+t.add(9);
+t.add(0);
+// displayTree(t);
+console.log(t.levelOrder());
+
+
