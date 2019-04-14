@@ -9,11 +9,11 @@ function infixToPostfix(str) {
     let output = "";
 
     let operatorsPriorities = {
-        "+": 2,
-        "-": 2,
+        "+": 0,
+        "-": 0,
         "*": 1,
         "/": 1,
-        "^": 0
+        "^": 2
     };
     let operatorsStack = [];
 
@@ -45,7 +45,7 @@ function infixToPostfix(str) {
             let lastOperator = operatorsStack[operatorsStack.length-1];
 
             if (operatorsStack.length === 0 ||
-                operatorsPriorities[lastOperator] > operatorsPriorities[str[i]]) {
+                operatorsPriorities[lastOperator] < operatorsPriorities[str[i]]) {
                     operatorsStack.push(str[i]);
             } else {
                 let numToPop = 0;
@@ -53,7 +53,7 @@ function infixToPostfix(str) {
                     let operator = operatorsStack[j];
                     if (operatorsStack[j] === "(" || operatorsStack[j] === ")") {
                         break;
-                    } else if (operatorsPriorities[operator] <= operatorsPriorities[str[i]]) {
+                    } else if (operatorsPriorities[operator] >= operatorsPriorities[str[i]]) {
                         numToPop++;
                     }
                 }
