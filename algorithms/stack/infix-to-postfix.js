@@ -49,6 +49,7 @@ function infixToPostfix(str) {
                     operatorsStack.push(str[i]);
             } else {
                 let numToPop = 0;
+
                 for (let j = operatorsStack.length-1; j >= 0; j--) {
                     let operator = operatorsStack[j];
                     if (operatorsStack[j] === "(" || operatorsStack[j] === ")") {
@@ -73,4 +74,4 @@ function infixToPostfix(str) {
     return output;
 }
 
-console.log(infixToPostfix("a+b*(c^d-e)^(f+g*h)-i"));
+//console.log(infixToPostfix("a+b*(c^d-e)^(f+g*h)-i"));
