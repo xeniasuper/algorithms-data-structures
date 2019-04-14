@@ -1,6 +1,5 @@
 "use strict";
 
-
 /**
  * Converts from infix to postfix arithmetic notation
  * @param str - arithmetic expression
@@ -13,7 +12,8 @@ function infixToPostfix(str) {
         "+": 2,
         "-": 2,
         "*": 1,
-        "/": 1
+        "/": 1,
+        "^": 0
     };
     let operatorsStack = [];
 
@@ -45,7 +45,6 @@ function infixToPostfix(str) {
             let lastOperator = operatorsStack[operatorsStack.length-1];
 
             if (operatorsStack.length === 0 ||
-                operatorsStack.indexOf("(") !== -1 ||
                 operatorsPriorities[lastOperator] > operatorsPriorities[str[i]]) {
                     operatorsStack.push(str[i]);
             } else {
@@ -74,4 +73,4 @@ function infixToPostfix(str) {
     return output;
 }
 
-console.log(infixToPostfix("(2+3)*(4+2)"));
+console.log(infixToPostfix("a+b*(c^d-e)^(f+g*h)-i"));
