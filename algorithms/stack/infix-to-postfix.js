@@ -7,7 +7,7 @@
  */
 function infixToPostfix(str) {
     let output = "";
-
+    let operatorsStack = [];
     let operatorsPriorities = {
         "+": 0,
         "-": 0,
@@ -15,7 +15,6 @@ function infixToPostfix(str) {
         "/": 1,
         "^": 2
     };
-    let operatorsStack = [];
 
     for (let i = 0; i < str.length; i++) {
         if (!operatorsPriorities.hasOwnProperty(str[i])) {
