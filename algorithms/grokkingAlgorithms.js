@@ -55,3 +55,34 @@ function recursiveBinarySearch(element, array) {
 }
 
 // console.log(recursiveBinarySearch(2, [1, 1, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9]));
+
+// QUICK SORT
+// implement quickSort
+function getRandomPivot(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+};
+
+function quickSort(array) {
+    if (array.length < 2) {
+        return array;
+    }
+
+    let pivotIdx = getRandomPivot(0, array.length-1);
+    let pivot = array[pivotIdx];
+
+    let lessThanPivot = array.filter((elem) => {
+        return elem < pivot;
+    });
+    let greaterThanPivot = array.filter((elem) => {
+        return elem > pivot;
+    });
+    let equalToPivot = array.filter((elem) => {
+        return elem === pivot;
+    });
+
+    return [...quickSort(lessThanPivot),
+            ...equalToPivot,
+            ...quickSort(greaterThanPivot)];
+};
+
+// console.log(quickSort([3, 7, 6, 0, 3, 1, -2, -4, 7, 2, 8]));
