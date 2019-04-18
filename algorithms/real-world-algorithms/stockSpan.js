@@ -1,3 +1,5 @@
+"use strict";
+
 // STOCK SPAN
 function stockSpan(quotes) {
     let differences = [];
@@ -38,3 +40,7 @@ function stockSpanEffective(quotes) {
 };
 
 // console.log(stockSpanEffective([7, 11, 8, 6, 4, 8, 9]));
+
+module.exports.stockSpan = stockSpan;
+module.exports.stockSpanEffective = stockSpanEffective;
+
