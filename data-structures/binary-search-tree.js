@@ -20,12 +20,13 @@ function Node(value) {
  */
 function BinarySearchTree() {
     this.root = null;
+
     // change code below this line
     /**
      * Finds minimum value
      * @return {Node.value}
      */
-    this.findMin = function() {
+    this.findMin = function () {
         return this._findExtremum("left");
     };
 
@@ -44,7 +45,7 @@ function BinarySearchTree() {
      * @return {null|Node.value}
      * @private
      */
-    this._findExtremum = function(side){
+    this._findExtremum = function (side) {
         if (this.root === null) return null;
 
         let current = this.root;
@@ -59,7 +60,7 @@ function BinarySearchTree() {
      * @param {number} number
      * @return {null}
      */
-    this.add = function(number) {
+    this.add = function (number) {
         let node = new Node(number);
 
         if (this.root === null) {
@@ -98,7 +99,7 @@ function BinarySearchTree() {
      * @param number
      * @return {boolean}
      */
-    this.isPresent = function(number) {
+    this.isPresent = function (number) {
         let node = new Node(number);
 
         if (this.root === null) {
@@ -134,10 +135,11 @@ function BinarySearchTree() {
      * @param node
      * @return {number} - if the tree is empty, return -1
      */
-    this.findMinHeight = function(node = this.root) {
+    this.findMinHeight = function (node = this.root) {
         if (node === null) {
             return -1;
-        };
+        }
+        ;
 
         let left = this.findMinHeight(node.left);
         let right = this.findMinHeight(node.right);
@@ -145,7 +147,8 @@ function BinarySearchTree() {
             return left + 1;
         } else {
             return right + 1;
-        };
+        }
+        ;
     };
 
     /**
@@ -153,10 +156,11 @@ function BinarySearchTree() {
      * @param node
      * @return {number} - if the tree is empty, return -1
      */
-    this.findMaxHeight = function(node=this.root) {
+    this.findMaxHeight = function (node = this.root) {
         if (node === null) {
             return -1;
-        };
+        }
+        ;
 
         let left = this.findMaxHeight(node.left);
         let right = this.findMaxHeight(node.right);
@@ -164,19 +168,20 @@ function BinarySearchTree() {
             return left + 1;
         } else {
             return right + 1;
-        };
+        }
+        ;
     };
 
     /**
      * Checks whether a tree is balanced
      * @return {boolean}
      */
-    this.isBalanced = function() {
+    this.isBalanced = function () {
         return this.findMinHeight() === this.findMaxHeight();
     };
 
     // Depth-first search
-    this.preorder = function() {
+    this.preorder = function () {
         let values = [];
 
         function traverseNLR(node) {
@@ -187,12 +192,13 @@ function BinarySearchTree() {
             traverseNLR(node.left);
             traverseNLR(node.right);
         }
+
         traverseNLR(this.root);
         if (values.length === 0) return null;
         return values;
     }
 
-    this.inorder = function() {
+    this.inorder = function () {
         let values = [];
 
         function traverseLNR(node) {
@@ -203,12 +209,13 @@ function BinarySearchTree() {
             values.push(node.value);
             traverseLNR(node.right);
         }
+
         traverseLNR(this.root);
         if (values.length === 0) return null;
         return values;
     }
 
-    this.postorder = function() {
+    this.postorder = function () {
         let values = [];
 
         function traverseLRN(node) {
@@ -224,48 +231,130 @@ function BinarySearchTree() {
         traverseLRN(this.root);
         if (values.length === 0) return null;
         return values;
-        }
+    }
 
-        // Width-first search
-        this.levelOrder = function() {
-            return this.widthFirstSearch("left", "right");
-        };
+    // Width-first search
+    this.levelOrder = function () {
+        return this.widthFirstSearch("left", "right");
+    };
 
-        this.reverseLevelOrder= function() {
-            return this.widthFirstSearch("right", "left");
-        };
+    this.reverseLevelOrder = function () {
+        return this.widthFirstSearch("right", "left");
+    };
 
-        this.widthFirstSearch = function(fromSide, toSide) {
-            if (this.root === null) return null;
+    this.widthFirstSearch = function (fromSide, toSide) {
+        if (this.root === null) return null;
 
-            let queue = [];
-            let values = [];
+        let queue = [];
+        let values = [];
 
-            queue.unshift(this.root);
+        queue.unshift(this.root);
 
-            while(queue.length !== 0) {
-                let node = queue.shift();
-                values.push(node.value);
-                if (node[fromSide] !== null) {
-                    queue.push(node[fromSide]);
-                };
-                if (node[toSide] !== null) {
-                    queue.push(node[toSide]);
-                }
+        while (queue.length !== 0) {
+            let node = queue.shift();
+            values.push(node.value);
+            if (node[fromSide] !== null) {
+                queue.push(node[fromSide]);
             }
-            return values;
+            ;
+            if (node[toSide] !== null) {
+                queue.push(node[toSide]);
+            }
         }
+        return values;
+    };
+
+    this.find = function(nodeValue) {
+        let currentNode = this.root;
+        let parent = null;
+
+        while (currentNode !== null) {
+            if (nodeValue === currentNode.value) {
+                return {
+                    node: currentNode,
+                    parent: parent
+                };
+            } else if (nodeValue < currentNode.value) {
+                parent = currentNode;
+                currentNode = currentNode.left;
+            } else {
+                parent = currentNode;
+                currentNode = currentNode.right;
+            }
+        }
+        return null;
+    };
+    this.remove = function(nodeValue) {
+        let nodeData = this.find(nodeValue);
+
+        if (nodeData === null) {
+            return null;
+        } else {
+            let {node, parent} = nodeData;
+
+            if (nodeData.node !== null && nodeData.parent !== null) {
+
+                // the node has no children
+                if (node.left === null && node.right === null) {
+                    if (node.value < parent.value) {
+                        parent.left = null;
+                    } else {
+                        parent.right = null;
+                    }
+                } else if (node.left === null && node.right !== null) {
+                    // the node has only right child
+                    parent.right = node.right;
+
+                } else if (node.left !== null && node.right === null) {
+                    // the node has only left child
+                    parent.left = node.left;
+
+                } else if (node.left !== null && node.right !== null) {
+                    // the node has two children
+                    let newNodeChild = node.left;
+                    let newNode = node.right;
+
+                    parent.left = newNode;
+                    newNode.left = newNodeChild;
+                }
+            } else if (parent === null) {
+                if (node.right) {
+                    this.root = node.right;
+                    node.right.left = null || node.left;
+                } else if (node.left) {
+                    this.root = node.left;
+                } else {
+                    this.root = null;
+                }
+            } else if (node === null) {
+                return null;
+            }
+        }
+    }
+
+    this.invert = function() {
+        function invertRecursively(currNode) {
+            if (currNode === null) {
+                return currNode;
+            } else {
+                [currNode.left, currNode.right] = [currNode.right, currNode.left];
+                invertRecursively(currNode.left);
+                invertRecursively(currNode.right);
+            }
+        }
+        return invertRecursively(this.root);
+    }
     // change code above this line
 }
 
-// let t = new BinarySearchTree();
-// t.add(3);
-// t.add(1);
-// t.add(2);
-// t.add(7);
-// t.add(9);
-// t.add(0);
-// displayTree(t);
-// console.log(t.levelOrder());
+let t = new BinarySearchTree();
+t.add(3);
+t.add(1);
+t.add(2);
+t.add(7);
+t.add(9);
+t.add(0);
+t.invert();
+displayTree(t);
 
 
